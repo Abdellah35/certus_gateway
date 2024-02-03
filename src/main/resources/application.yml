@@ -1,0 +1,98 @@
+server:
+  port: 9765
+
+#eureka:
+#  client:
+#  registerWithEureka: true
+#  fetchRegistry: true
+#  serviceUrl:
+#    defaultZone: http://localhost:9761/eureka/
+
+eureka:
+  client:
+    enabled: true
+    healthcheck:
+      enabled: true
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:9761/eureka/
+  server:
+    enable-self-preservation: false
+    peer-node-read-timeout-ms: 10000000
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 6MB
+      max-request-size: 6MB
+      enabled: true
+  application:
+    name: certus-zuul-gateway-auth
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://xxxxxx:3306/certus_core_db?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: xxxxxxx
+    password: xxxxxx
+    hikari:
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+
+  jpa:
+    hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
+  queries:
+    users-query: select username, password, enabled from users where username=?
+    roles-query: select username, authority from authorities where username=?
+zuul:
+  ignoredServices: '*'
+  sensitiveHeaders: Cookie,Set-Cookie
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+  routes:
+    certus-user-service:
+      path: /certus-user-service/**
+      serviceId: certus-user-service
+    certus-kyc-document-service:
+      path: /certus-kyc-documents-service/**
+      serviceId: certus-kyc-documents-service
+
+# This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+shuaicj.security.jwt.secret: NjRjNDliOTk1Y2U1M2MzNzcxMjVhZmYxZjFkMzNkMDk0MTExMTlmMzI2NDQ0NzIzZGQ2OTY2ZDJlYzJkNTYzYTQ4ZjZmYmM1MjM5YmY4Mjk3NzUxOGY3NjVlZWZjZWNjZDUwYjMzOWRhZGVmZGU2MDg3Y2NiNzY3NmNlNTQzNDk=
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 1000000
+        readTimeout: 1000000
+        loggerLevel: full
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000000
+
+
+ribbon:
+  ReadTimeout: 6000000
+  connection-timeout: 3000000
+  eureka:
+    enabled: true
+
+
+
+
