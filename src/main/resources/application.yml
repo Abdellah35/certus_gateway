@@ -31,9 +31,9 @@ spring:
     name: certus-zuul-gateway-auth
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://xxxxxx:3306/certus_core_db?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: xxxxxxx
-    password: xxxxxx
+    url: jdbc:mysql://localhost:3306/certus_core_db?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: 1985Bot5wana
     hikari:
       auto-commit: false
       data-source-properties:
