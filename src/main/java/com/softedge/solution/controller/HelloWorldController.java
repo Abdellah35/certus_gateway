@@ -51,7 +51,7 @@ class HelloWorldController {
 	@Autowired
 	private PermissionService permissionService;
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	@PostMapping(value = "/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
 
@@ -78,7 +78,7 @@ class HelloWorldController {
 
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping(value = "/register")
 	public String processRegister(@RequestBody UserRegistration userRegistrationObject) {
 
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
